@@ -52,10 +52,8 @@ if (celebration) {
   celebration.replaceChildren(decorations);
 }
 
-// Melodía original, con timbre de caja de música, creada mediante Web Audio.
-// El contexto de audio se crea con el clic en ABRE o en el control de música.
+// La canción se reproduce con el clic en ABRE o en el control de música.
 const musicButton = document.querySelector('.music-toggle');
-const AudioEngine = window.AudioContext || window.webkitAudioContext;
 
 // Dentro de la sorpresa incrustada, el audio pertenece a la portada para
 // conservar la autorización del clic incluso al abrirla desde un celular.
@@ -73,63 +71,16 @@ if (musicButton && window.parent !== window) {
     if (status) status.textContent = event.data.error || '';
   });
   window.parent.postMessage({ type: 'birthday-music-ready' }, '*');
-} else if (AudioEngine) {
+} else if (typeof window.Audio === 'function') {
   const label = musicButton?.querySelector('.music-label');
   const status = document.querySelector('.music-status');
-  const melody = [72, 76, 79, 76, 74, 72, 69, null,
-    67, 72, 76, 74, 72, 69, 67, null,
-    69, 72, 76, 79, 81, 79, 76, null,
-    74, 76, 72, 69, 67, 69, 72, null];
-  const harmonies = [[48, 55, 64], [45, 52, 60], [53, 60, 69], [55, 62, 67]];
-  const beat = 0.8;
-  let context;
-  let volume;
-  let timer;
-  let noteIndex = 0;
-  let nextNoteTime = 0;
+  const audio = new window.Audio('audio/ma\u00f1anitas.mp3');
+  audio.preload = 'metadata';
+  audio.volume = 0.65;
   let playing = false;
   let busy = false;
   let error = '';
   let playbackRequest = 0;
-
-  const frequency = (note) => 440 * 2 ** ((note - 69) / 12);
-
-  function tone(note, start, duration, level, type = 'sine') {
-    const oscillator = context.createOscillator();
-    const envelope = context.createGain();
-    oscillator.type = type;
-    oscillator.frequency.value = frequency(note);
-    envelope.gain.setValueAtTime(0, start);
-    envelope.gain.linearRampToValueAtTime(level, start + 0.04);
-    envelope.gain.exponentialRampToValueAtTime(0.001, start + duration);
-    oscillator.connect(envelope);
-    envelope.connect(volume);
-    oscillator.onended = () => {
-      oscillator.disconnect();
-      envelope.disconnect();
-    };
-    oscillator.start(start);
-    oscillator.stop(start + duration + 0.05);
-  }
-
-  function schedule() {
-    while (nextNoteTime < context.currentTime + 0.6) {
-      const note = melody[noteIndex % melody.length];
-      if (note !== null) {
-        tone(note, nextNoteTime, 1.8, 0.35);
-        tone(note + 12, nextNoteTime, 0.9, 0.045, 'triangle');
-      }
-
-      if (noteIndex % 8 === 0) {
-        for (const chordNote of harmonies[Math.floor(noteIndex / 8) % harmonies.length]) {
-          tone(chordNote, nextNoteTime, beat * 7, 0.055);
-        }
-      }
-
-      nextNoteTime += beat;
-      noteIndex++;
-    }
-  }
 
   function updateButton() {
     if (musicButton) musicButton.setAttribute('aria-pressed', String(playing));
@@ -140,37 +91,36 @@ if (musicButton && window.parent !== window) {
 
   async function pauseMusic() {
     playbackRequest++;
-    clearInterval(timer);
+    audio.pause();
     playing = false;
     updateButton();
-    if (context && context.state === 'running') await context.suspend();
   }
 
   async function startMusic() {
     const request = ++playbackRequest;
-    if (!context) {
-      context = new AudioEngine();
-      volume = context.createGain();
-      volume.gain.value = 0.16;
-      volume.connect(context.destination);
+    if (audio.error) audio.load();
+    if (audio.ended) audio.currentTime = 0;
+    try {
+      // play() se llama directamente durante el clic, sin esperas previas.
+      await audio.play();
+    } catch (playError) {
+      if (request !== playbackRequest) return;
+      throw playError;
     }
-
-    await context.resume();
     if (document.hidden || request !== playbackRequest) {
       await pauseMusic();
       return;
     }
 
-    nextNoteTime = Math.max(nextNoteTime, context.currentTime + 0.05);
     playing = true;
-    clearInterval(timer);
-    schedule();
-    timer = setInterval(schedule, 250);
     updateButton();
   }
 
   async function controlMusic(action) {
-    if (busy) return;
+    if (busy) {
+      if (action === 'toggle' || action === 'pause') await pauseMusic();
+      return;
+    }
     busy = true;
     if (musicButton) musicButton.disabled = true;
 
@@ -203,6 +153,20 @@ if (musicButton && window.parent !== window) {
     musicButton.hidden = false;
     musicButton.addEventListener('click', () => controlMusic('toggle'));
   }
+
+  audio.addEventListener('pause', () => {
+    playing = false;
+    updateButton();
+  });
+  audio.addEventListener('ended', () => {
+    playing = false;
+    updateButton();
+  });
+  audio.addEventListener('error', () => {
+    pauseMusic();
+    error = 'No se pudo cargar la canción. Comprueba tu conexión e inténtalo de nuevo.';
+    updateButton();
+  });
 
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) pauseMusic().catch(() => {});
