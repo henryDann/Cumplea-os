@@ -320,7 +320,24 @@
   <header class="birthday-heading">
     <h1 class="title"><span id="title"></span></h1>
     <time class="birthday-date" datetime="2026-10-30">30/10/1984</time>
+    <button class="note-trigger" type="button" aria-haspopup="dialog" aria-controls="birthday-note" aria-expanded="false">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <rect x="3" y="5" width="18" height="14" rx="3"></rect>
+        <path d="m4 7 8 6 8-6"></path>
+      </svg>
+      Un mensaje para ti
+    </button>
   </header>
+  <dialog class="note-dialog" id="birthday-note" aria-labelledby="note-title">
+    <button class="note-close" type="button" aria-label="Cerrar la carta">Cerrar</button>
+    <p class="note-eyebrow">Una pequeña carta</p>
+    <h2 id="note-title" tabindex="-1" autofocus>Zulema,</h2>
+    <div class="note-content">
+      <p>Sé que la vida no siempre ha sido justa contigo y que hay días difíciles. Ojalá este nuevo año te traiga más calma, motivos para sonreír y personas que te hagan sentir querida.</p>
+      <p>Incluso después de la tormenta, el sol vuelve a salir.</p>
+      <p>Feliz cumpleaños y gracias por tu amistad. Me alegra tenerte en mi vida.</p>
+    </div>
+  </dialog>
   <button class="music-toggle" type="button" aria-pressed="false" hidden>
     <span aria-hidden="true">♫</span>
     <span class="music-label">Activar música</span>
@@ -328,6 +345,7 @@
   <p class="music-status" role="status"></p>
   <script src="js/main.js"></script>
   <script src="js/ambience.js"></script>
+  <script src="js/note.js"></script>
 </body>
 
 </html>
