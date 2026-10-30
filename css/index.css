@@ -10,6 +10,20 @@
   --dark-color: #000;
 }
 
+body {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(28px, 6vh, 56px);
+  padding: 32px 20px;
+  background-color: var(--dark-color);
+  overflow-x: clip;
+}
+
 .night {
   position: fixed;
   left: 50%;
@@ -22,27 +36,23 @@
 }
 
 .title {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
+  z-index: 2;
   color: white;
   font-family: 'Courier New', Courier, monospace;
 
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
+  text-align: center;
+  text-wrap: balance;
+  line-height: 1.35;
 
-  width: 100%;
-  height: 100vh;
+  width: min(100%, 1100px);
   text-shadow: 0 0 20px white;
   letter-spacing: 0px;
 }
 
 @media (min-width: 500px) {
   .title {
-    letter-spacing: 20px;
+    letter-spacing: clamp(2px, 1vw, 12px);
   }
 }
 
@@ -68,44 +78,322 @@ a {
 }
 
 .btn {
-  border: none;
-  width: 15em;
-  height: 5em;
-  border-radius: 3em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  background: #1C1A1C;
+  position: relative;
+  display: block;
+  width: clamp(144px, 22vw, 180px);
+  height: clamp(156px, 24vw, 194px);
+  flex-shrink: 0;
+  border-radius: 16px;
   cursor: pointer;
-  transition: all 450ms ease-in-out;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: transform 250ms ease;
 }
 
-.sparkle {
-  fill: #AAAAAA;
-  transition: all 800ms ease;
+.btn::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  bottom: -16px;
+  left: 0;
+  width: 100%;
+  height: 24px;
+  background: radial-gradient(ellipse, rgba(255, 107, 167, 0.35), transparent 70%);
 }
 
-.text {
-  font-weight: 600;
-  color: #AAAAAA;
-  font-size: medium;
+.gift-box {
+  position: absolute;
+  inset: 29% 6% 0;
+  border-radius: 4px 4px 12px 12px;
+  background: linear-gradient(90deg, transparent 41%, #ffda58 41%, #ffda58 59%, transparent 59%),
+    linear-gradient(transparent 43%, #ffda58 43%, #ffda58 57%, transparent 57%),
+    linear-gradient(135deg, #ff679d, #db2468);
+  box-shadow: inset 0 -7px 0 rgba(136, 14, 63, 0.18), 0 10px 30px rgba(255, 65, 133, 0.2);
 }
 
-.btn:hover {
-  background: linear-gradient(0deg, #A47CF3, #683FEA);
-  box-shadow: inset 0px 1px 0px 0px rgba(255, 255, 255, 0.4),
-    inset 0px -4px 0px 0px rgba(0, 0, 0, 0.2),
-    0px 0px 0px 4px rgba(255, 255, 255, 0.2),
-    0px 0px 180px 0px #9917FF;
-  transform: translateY(-2px);
+.gift-lid {
+  position: absolute;
+  z-index: 2;
+  top: 22%;
+  left: 0;
+  width: 100%;
+  height: 18%;
+  border-radius: 6px;
+  background: linear-gradient(90deg, transparent 42%, #ffe47e 42%, #ffe47e 58%, transparent 58%),
+    linear-gradient(135deg, #ff8cba, #f14988);
+  box-shadow: inset 0 3px 0 rgba(255, 255, 255, 0.25), 0 5px 0 rgba(126, 13, 57, 0.15);
+  transition: transform 250ms ease;
 }
 
-.btn:hover .text {
-  color: white;
+.gift-bow {
+  position: absolute;
+  top: 2%;
+  left: 25%;
+  width: 50%;
+  height: 24%;
+  transition: transform 250ms ease;
 }
 
-.btn:hover .sparkle {
-  fill: white;
-  transform: scale(1.2);
+.gift-bow::before,
+.gift-bow::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 52%;
+  height: 90%;
+  border: 8px solid #ffdf68;
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.3);
+}
+
+.gift-bow::before {
+  left: 0;
+  border-radius: 65% 65% 10% 65%;
+  transform: rotate(-15deg);
+}
+
+.gift-bow::after {
+  right: 0;
+  border-radius: 65% 65% 65% 10%;
+  transform: rotate(15deg);
+}
+
+.btn .text {
+  position: absolute;
+  z-index: 3;
+  top: 65%;
+  right: -3px;
+  padding: 10px 14px;
+  border-radius: 3px;
+  background: #fff1c7;
+  color: #79223f;
+  font: 800 15px/1.2 system-ui, sans-serif;
+  letter-spacing: 2px;
+  box-shadow: 0 3px 8px rgba(90, 12, 40, 0.2);
+  transform: rotate(-9deg);
+}
+
+.btn:hover,
+.btn:focus-visible {
+  transform: translateY(-5px) rotate(-2deg);
+}
+
+.btn:hover .gift-lid,
+.btn:hover .gift-bow {
+  transform: translateY(-4px);
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+/* Mantiene la portada y mejora su uso en pantallas pequenas y con teclado. */
+.title {
+  font-size: clamp(30px, 6vw, 44px);
+  pointer-events: none;
+}
+
+.intro-actions {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 26px;
+  justify-content: center;
+  width: 100%;
+}
+
+.intro-hint {
+  max-width: 30ch;
+  padding-inline: 8px;
+  color: #f8dfaf;
+  font: 400 clamp(14px, 3.5vw, 17px)/1.6 system-ui, sans-serif;
+  text-align: center;
+  text-wrap: balance;
+  text-shadow: 0 2px 12px #000;
+}
+
+.intro-decor {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.intro-star {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  color: #ffe49a;
+  font-size: clamp(14px, 2vw, 23px);
+  text-shadow: 0 0 12px rgba(255, 211, 100, 0.6);
+  animation: intro-twinkle 4s var(--delay) ease-in-out infinite;
+}
+
+@keyframes intro-twinkle {
+  0%, 100% { opacity: 0.25; transform: scale(0.8); }
+  50% { opacity: 0.95; transform: scale(1.15); }
+}
+
+.intro-balloon {
+  position: absolute;
+  width: clamp(30px, 5vw, 54px);
+  height: clamp(40px, 6.5vw, 70px);
+  border-radius: 48% 48% 45% 45%;
+  background: radial-gradient(ellipse at 30% 25%, rgba(255, 255, 255, 0.5), transparent 45%), var(--balloon-color);
+  opacity: 0.8;
+  transform-origin: center 120%;
+  animation: intro-balloon-sway 7s var(--balloon-delay, 0s) ease-in-out infinite;
+}
+
+.intro-balloon::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 10px;
+  height: clamp(45px, 8vw, 90px);
+  border-left: 1px solid rgba(255, 233, 189, 0.45);
+  border-radius: 50%;
+}
+
+.intro-balloon--1 { left: 4%; top: 69%; --balloon-color: #f65891; }
+.intro-balloon--2 { right: 4%; top: 9%; --balloon-color: #a088ee; --balloon-delay: -2s; }
+.intro-balloon--3 { right: 7%; top: 74%; --balloon-color: #ffc941; --balloon-delay: -4s; }
+.intro-balloon--4 { left: 3%; top: 6%; --balloon-color: #45c9b3; --balloon-delay: -1s; }
+
+@keyframes intro-balloon-sway {
+  0%, 100% { transform: translateY(0) rotate(-6deg); }
+  50% { transform: translateY(-14px) rotate(6deg); }
+}
+
+.paw-trail {
+  position: absolute;
+  z-index: -1;
+  top: 48px;
+  left: calc(50% - 200px);
+  width: 150px;
+  height: 170px;
+  pointer-events: none;
+}
+
+.intro-paw {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 25px;
+  height: 29px;
+  opacity: 0.45;
+  transform: rotate(var(--tilt));
+  background:
+    radial-gradient(ellipse 8px 7px at 50% 74%, #f9dfac 95%, transparent),
+    radial-gradient(ellipse 3px 4px at 13% 43%, #f9dfac 95%, transparent),
+    radial-gradient(ellipse 3px 4px at 37% 20%, #f9dfac 95%, transparent),
+    radial-gradient(ellipse 3px 4px at 65% 20%, #f9dfac 95%, transparent),
+    radial-gradient(ellipse 3px 4px at 89% 43%, #f9dfac 95%, transparent);
+}
+
+.btn:focus-visible {
+  outline: 3px solid #ffe47e;
+  outline-offset: 6px;
+}
+
+body.surprise-open {
+  display: block;
+  padding: 0;
+  overflow: hidden;
+}
+
+.surprise-open > :not(.surprise-frame) {
+  display: none;
+}
+
+.surprise-frame {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #000;
+}
+
+@media (max-width: 600px) {
+  .paw-trail {
+    left: calc(50% - 145px);
+    top: 46px;
+    width: 98px;
+    height: 140px;
+  }
+
+  .intro-paw {
+    opacity: 0.35;
+  }
+
+  body .snoopy {
+    width: clamp(60px, 18vw, 88px);
+    pointer-events: none;
+  }
+
+  .snoopy.snoopy1 {
+    top: 12%;
+    left: 8%;
+  }
+
+  .snoopy.snoopy2 {
+    top: 24%;
+    left: auto;
+    right: 10%;
+  }
+
+  .snoopy.snoopy3 {
+    top: auto;
+    bottom: 10%;
+    left: 18%;
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  body {
+    gap: 20px;
+    padding-block: 24px;
+  }
+
+  body .snoopy {
+    width: 56px;
+  }
+
+  .btn {
+    width: 110px;
+    height: 120px;
+  }
+
+  .intro-actions {
+    gap: 16px;
+  }
+
+  .paw-trail {
+    top: 8px;
+    height: 110px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .title span {
+    animation: none;
+    opacity: 1;
+  }
+
+  body .snoopy {
+    animation: none;
+  }
+
+  .intro-star, .intro-balloon {
+    animation: none;
+  }
+
+  .btn, .gift-lid, .gift-bow {
+    transition: none;
+  }
 }

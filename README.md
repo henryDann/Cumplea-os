@@ -2,7 +2,7 @@
 
 Pagina web interactiva para regalar una felicitacion de cumpleanos de forma creativa. El proyecto presenta una pantalla inicial con animaciones, un boton de apertura y una segunda vista con flores animadas y un mensaje final.
 
-[Ver demo en GitHub Pages](https://williammdn.github.io/feliz_cumplea-os/)
+[Ver demo en GitHub Pages](https://henrydann.github.io/Cumplea-os/)
 
 ![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-deployed-2ea44f?style=for-the-badge&logo=github)
 ![HTML](https://img.shields.io/badge/HTML-5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
@@ -64,13 +64,13 @@ No necesitas instalar dependencias.
 1. Clona el repositorio:
 
 ```bash
-git clone https://github.com/WILLIAMMDN/feliz_cumplea-os.git
+git clone https://github.com/henryDann/Cumplea-os.git
 ```
 
 2. Entra a la carpeta:
 
 ```bash
-cd feliz_cumplea-os
+cd Cumplea-os
 ```
 
 3. Abre `index.html` en tu navegador.
@@ -115,7 +115,7 @@ El repositorio incluye un workflow en `.github/workflows/static.yml` que publica
 URL de produccion:
 
 ```text
-https://williammdn.github.io/feliz_cumplea-os/
+https://henrydann.github.io/Cumplea-os/
 ```
 
 ## Recomendaciones De Mejora

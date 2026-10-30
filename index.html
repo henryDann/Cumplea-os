@@ -1,4 +1,5 @@
-<html lang="en">
+<!DOCTYPE html>
+<html lang="es">
 
 <head>
   <meta charset="UTF-8">
@@ -62,6 +63,22 @@
 <body>
   <!-- Background -->
   <div class="night"></div>
+  <div class="intro-decor" aria-hidden="true">
+    <span class="intro-star" style="--x: 18%; --y: 12%; --delay: 0s">✦</span>
+    <span class="intro-star" style="--x: 37%; --y: 20%; --delay: 1.4s">✧</span>
+    <span class="intro-star" style="--x: 76%; --y: 15%; --delay: 0.7s">✦</span>
+    <span class="intro-star" style="--x: 88%; --y: 38%; --delay: 2s">✧</span>
+    <span class="intro-star" style="--x: 9%; --y: 47%; --delay: 0.4s">✦</span>
+    <span class="intro-star" style="--x: 24%; --y: 63%; --delay: 1.8s">✧</span>
+    <span class="intro-star" style="--x: 73%; --y: 68%; --delay: 1s">✦</span>
+    <span class="intro-star" style="--x: 86%; --y: 87%; --delay: 2.5s">✧</span>
+    <span class="intro-star" style="--x: 42%; --y: 90%; --delay: 0.8s">✦</span>
+    <span class="intro-star" style="--x: 57%; --y: 8%; --delay: 1.6s">✧</span>
+    <span class="intro-balloon intro-balloon--1"></span>
+    <span class="intro-balloon intro-balloon--2"></span>
+    <span class="intro-balloon intro-balloon--3"></span>
+    <span class="intro-balloon intro-balloon--4"></span>
+  </div>
 
   <!-- Animated Snoopy Images -->
   <img src="images/snoopy1.gif" alt="Snoopy" class="snoopy snoopy1">
@@ -72,17 +89,24 @@
   <h1 class="title"></h1>
 
   <!-- Button -->
-  <div style="position: absolute; top: 60vh; width: 100%; display: flex; justify-content: center;">
-    <a href="flower.html" class="btn">
-      <svg height="24" width="24" fill="#FFFFFF" viewBox="0 0 24 24" data-name="Layer 1" id="Layer_1" class="sparkle">
-        <path
-          d="M10,21.236,6.755,14.745.264,11.5,6.755,8.255,10,1.764l3.245,6.491L19.736,11.5l-6.491,3.245ZM18,21l1.5,3L21,21l3-1.5L21,18l-1.5-3L18,18l-3,1.5ZM19.333,4.667,20.5,7l1.167-2.333L24,3.5,21.667,2.333,20.5,0,19.333,2.333,17,3.5Z">
-        </path>
-      </svg>
+  <div class="intro-actions">
+    <div class="paw-trail" aria-hidden="true">
+      <span class="intro-paw" style="--x: 5%; --y: 90%; --tilt: 28deg"></span>
+      <span class="intro-paw" style="--x: 28%; --y: 68%; --tilt: 40deg"></span>
+      <span class="intro-paw" style="--x: 40%; --y: 43%; --tilt: 22deg"></span>
+      <span class="intro-paw" style="--x: 65%; --y: 24%; --tilt: 48deg"></span>
+      <span class="intro-paw" style="--x: 82%; --y: 2%; --tilt: 36deg"></span>
+    </div>
+    <a href="flower.html" class="btn" aria-label="Abrir tu regalo de cumpleaños">
+      <span class="gift-box" aria-hidden="true"></span>
+      <span class="gift-lid" aria-hidden="true"></span>
+      <span class="gift-bow" aria-hidden="true"></span>
       <span class="text">ABRE</span>
     </a>
+    <p class="intro-hint">Toca el regalo, hay una sorpresa para ti <span aria-hidden="true">💛</span></p>
   </div>
 
+  <script src="js/ambience.js"></script>
   <script src="js/index.js"></script>
 </body>
 

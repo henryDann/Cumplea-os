@@ -1,22 +1,32 @@
 
-onload = () => {
-  const c = setTimeout(() => {
-    document.body.classList.remove("not-loaded");
+window.addEventListener('load', () => {
+  const message = 'Feliz Cumpleaños Zulema';
+  const titleElement = document.getElementById('title');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    const titles = ('Feliz Cumpleaños').split('')
-    const titleElement = document.getElementById('title');
+  if (titleElement) {
+    titleElement.parentElement.setAttribute('aria-label', message);
+    titleElement.setAttribute('aria-hidden', 'true');
+    titleElement.textContent = '';
+  }
+
+  setTimeout(() => {
+    document.body.classList.remove('not-loaded');
+    if (!titleElement) return;
+
+    if (reducedMotion) {
+      titleElement.textContent = message;
+      return;
+    }
+
+    const characters = Array.from(message);
     let index = 0;
 
     function appendTitle() {
-      if (index < titles.length) {
-        titleElement.innerHTML += titles[index];
-        index++;
-        setTimeout(appendTitle, 300); // 1000ms delay
-      }
+      titleElement.textContent += characters[index++];
+      if (index < characters.length) setTimeout(appendTitle, 300);
     }
 
     appendTitle();
-
-    clearTimeout(c);
-  }, 1000);
-};
+  }, reducedMotion ? 0 : 1000);
+}, { once: true });
